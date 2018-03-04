@@ -1,6 +1,28 @@
 {
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "querystring": "^0.2.0",
     "superagent": "^3.8.2"
-  }
+  },
+  "dependencies": {
+    "querystring": "^0.2.0"
+  },
+  "name": "node-res",
+  "version": "1.0.0",
+  "main": "radio.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TKBnice/node-res.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TKBnice/node-res/issues"
+  },
+  "homepage": "https://github.com/TKBnice/node-res#readme",
+  "description": ""
 }
