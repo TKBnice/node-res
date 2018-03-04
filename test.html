@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>前端算法</title>
+</head>
+
+<body>
+<ul id="list">
+    <li>第一个li</li>
+    <li>第二个li</li>
+    <li>第三个li</li>li
+</ul>
+    <script>
+//闭包获取li的index
+    var list = document.querySelectorAll('#list li');
+        for (var i = 0; i < list.length; i++) {
+                list[i].onclick=(function(num){
+                    return function(){
+                        console.log(num)
+                    }
+                })(i)
+            }
+
+
+// 回文函数-----------
+        function aa(str) {
+            return str == str.split('').reverse().join('');
+        }
+        console.log(aa('mamam')) //为回文true
+//数组去重-------
+        var unique1 = function (arr) {
+            var hashTable = {};
+            var data = [];
+            for (var i = 0; i < arr.length; i++) {
+                if (!hashTable[arr[i]]) {
+                    hashTable[arr[i]] = true; //首次则设置值为true
+                    data.push(arr[i]);
+                }
+            }
+            return data
+        }
+
+        function unique2(a) {
+            var res = [];
+
+            for (var i = 0, len = a.length; i < len; i++) {
+                for (var j = i + 1; j < len; j++) {
+                    // 这一步十分巧妙
+                    // 如果发现相同元素
+                    // 则 i 自增进入下一个循环比较
+                    if (a[i] === a[j]) j = ++i;
+
+                }
+                res.push(a[i]);
+            }
+
+            return res;
+        }
+        console.log(unique1([1, 2, 55, 66, 1, 33, 5, 55]))
+        console.log(unique2([1, 2, 55, 66, 1, 33, 5, 55, 66, 66]))
+//字符在字符串出现最多的次数--------
+        function findMaxStr(str) {
+            if (str.length == 1) return str;
+            var charObj = {};
+            for (var i = 0; i < str.length; i++) {
+                if (!charObj[str.charAt(i)]) {
+                    charObj[str.charAt(i)] = 1;
+                } else {
+                    charObj[str.charAt(i)] += 1;
+                }
+            }
+            var max = 0,maxObj="";
+            for (var key in charObj) {
+                if (max < charObj[key]) {
+                    max = charObj[key]; //max始终储存次数最大的那个
+                    maxObj = key;
+                }
+            }
+
+            return maxObj;
+        }
+        console.log(findMaxStr("vvssssdwewdqWWwwfesW"))
+//冒泡排序=-----------------
+        function bubbleSort(arr){
+            for(var i=0;i<arr.length-1;i++){
+                for(var j=i+1;j<arr.length;j++){
+                    if(arr[i]>arr[j]){
+                        var temp = arr[j];
+                        arr[j] = arr[i];
+                        arr[i] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+        console.log(bubbleSort([1,-2,0,3,4,77,22,55,12,5,9])+"冒泡排序")
+//快速排序--------------------
+        function quickSort(arr){
+            if(arr.length<=1){
+                return arr;
+            }
+            var leftArr = [],rightArr=[],q=arr[0];
+            for(var i=1;i<arr.length;i++){
+                if(arr[i]>q){
+                    rightArr.push(arr[i]) 
+                }else{
+                    leftArr.push(arr[i])
+                }
+            }
+            return [].concat(quickSort(leftArr),[q],quickSort(rightArr));
+
+        }
+        console.log(quickSort([3,4,77,-22,4,12,-5,9])+"快速排序")
+//找出正整数最大差值--------------------
+        function getMaxProfit(arr){
+            var minPrice = arr[0],maxProfit = 0;
+            for(var i=0;i<arr.length;i++){
+                var currentPrice = arr[i];//当前值
+                minPrice = Math.min(minPrice,currentPrice);//最小值
+                var potentialProfit = currentPrice-minPrice;//当前值与最小值差值
+                maxProfit = Math.max(maxProfit,potentialProfit);//循环找到最大差值
+            }
+            return maxProfit;
+        }
+        console.log(getMaxProfit([2,4,5,8,66,23532])+"为正整数最大差值");
+//生成指定个数的随机数
+        function randomString(n){
+            var str = 'qwertyuiopasdfghjklzxcvbnm1234567890';
+            var tmp ="",l=str.length;
+            for(var i=0;i<n;i++){
+                tmp+=str.charAt(Math.floor(Math.random()*l))
+            }
+            return tmp;
+        }
+        console.log(randomString(5)+"生成指定个数的随机数");
+//二分查找算法
+        function binary_search(arr, key) {
+            var low = 0,
+                high = arr.length - 1;
+            while(low <= high){
+                var mid = parseInt((high + low) / 2);
+                if(key == arr[mid]){
+                    return  mid;
+                }else if(key > arr[mid]){
+                    low = mid + 1;
+                }else if(key < arr[mid]){
+                    high = mid -1;
+                }else{
+                    return -1;
+                }
+            }
+        };
+        var result = binary_search([1,2,3,4,5,6,7,8,9,10,11,23,44,86],10);
+        console.log(result); // 9 返回目标元素的索引值
+    </script>
+</body>
+
+</html>
