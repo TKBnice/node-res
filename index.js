@@ -6,7 +6,7 @@ const port = 9000;
 
 http
   .createServer((req, res) => {
-    var url_info = require("url").parse(req.url, true);
+    let url_info = require("url").parse(req.url, true);
 
     //检查是不是给/test的request
     // console.log(url_info.pathname);
@@ -20,7 +20,7 @@ http
           // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
           // 剩下就都是 jquery 的内容了
           var $ = cheerio.load(sres.text);
-          var items = [];
+          let items = [];
           $("#main .member a").each(function(idx, element) {
             var $elementI = $(element).find("img");
             var $elementP = $(element).find("p");
@@ -86,6 +86,45 @@ http
                 res.end(JSON.stringify(html));  
             });  
         });  
+    }else if (url_info.pathname === "/api/movie") {
+
+        superagent
+        .get("http://vip.80inx.cn/")
+        .then(function(sres) {
+          // console.log(sres.text)
+          // sres.text 里面存储着网页的 html 内容，将它传给 cheerio.load 之后
+          // 就可以得到一个实现了 jquery 接口的变量，我们习惯性地将它命名为 `$`
+
+            let $ = cheerio.load(sres.text); //当前的$符相当于拿到了所有的body里面的选择器
+            
+            let container = $('.container .b-listtab-main').eq(0); //拿到导航栏的内容
+            let moveList = $(container).find('.item');
+            let items = [];
+            moveList.each(function(i,ele){
+                items.push({
+                    title:$(ele).find('img').attr('alt'),
+                    img:$(ele).find('img').attr('src')
+                })
+            })
+            console.log(items)
+             res.end(
+                JSON.stringify(
+                     {
+                        success:true,
+                        list:items,
+                        total:moveList.length
+                    }
+                )
+            );
+
+
+        })
+        .catch(function(err) {
+          console.log("superagent:" + err);
+        });
+
+
+
     }
   })
   .listen(port, hostname, () => {
